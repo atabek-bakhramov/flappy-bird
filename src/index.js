@@ -6,7 +6,7 @@ const config = {
   physics: {
     default: "arcade",
     arcade: {
-      gravity: { y: 400 },
+      // gravity: { y: 400 },
       debug: true,
     },
   },
@@ -20,11 +20,15 @@ const config = {
 function preload() {
   this.load.image("sky", "assets/sky.png");
   this.load.image("bird", "assets/bird.png");
+  this.load.image("pipe", "assets/pipe.png");
 }
 
 const VELOCITY = 200;
 
 let bird = null;
+let upperPipe = null;
+let lowerPipe = null;
+
 const flapVelocity = 250;
 const initialBirdPosition = { x: config.width * 0.1, y: config.height / 2 };
 
@@ -33,6 +37,12 @@ function create() {
   bird = this.physics.add
     .sprite(initialBirdPosition.x, initialBirdPosition.y, "bird")
     .setOrigin(0);
+  bird.body.gravity.y = 400;
+
+  upperPipe = this.physics.add.sprite(400, 100, "pipe").setOrigin(0, 1);
+  lowerPipe = this.physics.add
+    .sprite(400, upperPipe.y + 100, "pipe")
+    .setOrigin(0, 0);
 
   this.input.on("pointerdown", flap);
   this.input.keyboard.on("keydown_SPACE", flap);
